@@ -1,0 +1,213 @@
+{\rtf1\ansi\deff0 {\fonttbl{\f0\fnil Garamond;}}
+{\info {\author .}{\company .}{\title .}}
+\deflang1033\plain\fs20
+{\footer\pard\qc\plain\f0\fs20\chpgn\par}
+{
+{
+{\b\qc\line Descriptive Statistics }{\par}
+\trowd\trgaph108\trleft-108\clbrdrt\brdrw10\brdrs \clbrdrb\brdrw25\brdrs\cellx2400\clbrdrt\brdrw10\brdrs \clbrdrb\brdrw25\brdrs\cellx3200\clbrdrt\brdrw10\brdrs \clbrdrb\brdrw25\brdrs\cellx4600\clbrdrt\brdrw10\brdrs \clbrdrb\brdrw25\brdrs\cellx6000\clbrdrt\brdrw10\brdrs \clbrdrb\brdrw25\brdrs\cellx7400\clbrdrt\brdrw10\brdrs \clbrdrb\brdrw25\brdrs\cellx8800
+\ql { {Variable}}\cell
+\qr { {Obs}}\cell
+\qr { {Mean}}\cell
+\qr { {Std. Dev.}}\cell
+\qr { {Min}}\cell
+\qr { {Max}}\cell
+\row
+\trowd\trgaph108\trleft-108\cellx2400\cellx3200\cellx4600\cellx6000\cellx7400\cellx8800
+\ql { {board code}}\cell
+\qr {{144}}\cell
+\qr {{801355}}\cell
+\qr {{312.092}}\cell
+\qr {{801050}}\cell
+\qr {{801780}}\cell
+\row
+\ql { {ind avg sentiment}}\cell
+\qr {{144}}\cell
+\qr {{-.078}}\cell
+\qr {{.065}}\cell
+\qr {{-.217}}\cell
+\qr {{.071}}\cell
+\row
+\ql { {ind sentiment std}}\cell
+\qr {{144}}\cell
+\qr {{.136}}\cell
+\qr {{.034}}\cell
+\qr {{.063}}\cell
+\qr {{.269}}\cell
+\row
+\ql { {ind positive ratio}}\cell
+\qr {{144}}\cell
+\qr {{.456}}\cell
+\qr {{.042}}\cell
+\qr {{.361}}\cell
+\qr {{.551}}\cell
+\row
+\ql { {ind negative ratio}}\cell
+\qr {{144}}\cell
+\qr {{.544}}\cell
+\qr {{.042}}\cell
+\qr {{.449}}\cell
+\qr {{.639}}\cell
+\row
+\ql { {ind sentiment net}}\cell
+\qr {{144}}\cell
+\qr {{-.089}}\cell
+\qr {{.084}}\cell
+\qr {{-.278}}\cell
+\qr {{.103}}\cell
+\row
+\ql { {ind sentiment cons~s}}\cell
+\qr {{144}}\cell
+\qr {{.874}}\cell
+\qr {{.032}}\cell
+\qr {{.782}}\cell
+\qr {{.939}}\cell
+\row
+\ql { {ind avg turnover}}\cell
+\qr {{144}}\cell
+\qr {{2.208}}\cell
+\qr {{1.798}}\cell
+\qr {{.274}}\cell
+\qr {{8.836}}\cell
+\row
+\ql { {ind total volume}}\cell
+\qr {{144}}\cell
+\qr {{9428890}}\cell
+\qr {{5831079.6}}\cell
+\qr {{1491354}}\cell
+\qr {{24788951}}\cell
+\row
+\ql { {ind total amount}}\cell
+\qr {{144}}\cell
+\qr {{2.201e+10}}\cell
+\qr {{1.563e+10}}\cell
+\qr {{3.556e+09}}\cell
+\qr {{7.478e+10}}\cell
+\row
+\ql { {stock count}}\cell
+\qr {{144}}\cell
+\qr {{13.826}}\cell
+\qr {{1.771}}\cell
+\qr {{11}}\cell
+\qr {{16}}\cell
+\row
+\ql { {total comments}}\cell
+\qr {{144}}\cell
+\qr {{2377.528}}\cell
+\qr {{1149.415}}\cell
+\qr {{760}}\cell
+\qr {{5490}}\cell
+\row
+\ql { {sentiment dispersion}}\cell
+\qr {{144}}\cell
+\qr {{5.249}}\cell
+\qr {{21.305}}\cell
+\qr {{.388}}\cell
+\qr {{246.563}}\cell
+\row
+\ql { {idx close}}\cell
+\qr {{144}}\cell
+\qr {{6501.714}}\cell
+\qr {{4271.539}}\cell
+\qr {{2013.39}}\cell
+\qr {{17422.311}}\cell
+\row
+\ql { {idx open}}\cell
+\qr {{144}}\cell
+\qr {{6481.513}}\cell
+\qr {{4258.691}}\cell
+\qr {{2012.25}}\cell
+\qr {{17382.689}}\cell
+\row
+\ql { {idx high}}\cell
+\qr {{144}}\cell
+\qr {{6553.315}}\cell
+\qr {{4301.68}}\cell
+\qr {{2025.44}}\cell
+\qr {{17769.6}}\cell
+\row
+\ql { {idx low}}\cell
+\qr {{144}}\cell
+\qr {{6432.004}}\cell
+\qr {{4239.867}}\cell
+\qr {{1998.41}}\cell
+\qr {{17378.939}}\cell
+\row
+\ql { {idx volume}}\cell
+\qr {{144}}\cell
+\qr {{68.678}}\cell
+\qr {{45.481}}\cell
+\qr {{12.846}}\cell
+\qr {{185.051}}\cell
+\row
+\ql { {idx amount}}\cell
+\qr {{144}}\cell
+\qr {{1151.352}}\cell
+\qr {{1111.343}}\cell
+\qr {{132.632}}\cell
+\qr {{3839.181}}\cell
+\row
+\ql { {idx pct change}}\cell
+\qr {{144}}\cell
+\qr {{.276}}\cell
+\qr {{1.581}}\cell
+\qr {{-5.356}}\cell
+\qr {{3.965}}\cell
+\row
+\ql { {ind ma 3d}}\cell
+\qr {{144}}\cell
+\qr {{-.078}}\cell
+\qr {{.058}}\cell
+\qr {{-.208}}\cell
+\qr {{.051}}\cell
+\row
+\ql { {ind sentiment cha~3d}}\cell
+\qr {{120}}\cell
+\qr {{.533}}\cell
+\qr {{3.803}}\cell
+\qr {{-6.846}}\cell
+\qr {{31.895}}\cell
+\row
+\ql { {ind ma 5d}}\cell
+\qr {{144}}\cell
+\qr {{-.077}}\cell
+\qr {{.057}}\cell
+\qr {{-.208}}\cell
+\qr {{.047}}\cell
+\row
+\ql { {ind sentiment cha~5d}}\cell
+\qr {{104}}\cell
+\qr {{-.655}}\cell
+\qr {{10.891}}\cell
+\qr {{-106.118}}\cell
+\qr {{24.737}}\cell
+\row
+\ql { {ind ma 10d}}\cell
+\qr {{144}}\cell
+\qr {{-.074}}\cell
+\qr {{.058}}\cell
+\qr {{-.208}}\cell
+\qr {{.038}}\cell
+\row
+\ql { {ind sentiment ch~10d}}\cell
+\qr {{64}}\cell
+\qr {{-.041}}\cell
+\qr {{1.894}}\cell
+\qr {{-5.652}}\cell
+\qr {{8.445}}\cell
+\row
+\ql { {time}}\cell
+\qr {{144}}\cell
+\qr {{9.5}}\cell
+\qr {{5.206}}\cell
+\qr {{1}}\cell
+\qr {{18}}\cell
+\row
+}
+{\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw15\brdrs\cellx8800{}\cell
+\row}
+
+
+\writepositionforappend
+}}

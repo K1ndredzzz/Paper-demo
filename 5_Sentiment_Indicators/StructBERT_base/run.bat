@@ -1,0 +1,2 @@
+python sentiment_indicators.py
+pause
