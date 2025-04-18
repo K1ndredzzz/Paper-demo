@@ -1,0 +1,117 @@
+cd D:\Code_new\Paper\6_Stata_Reg\StructBERT_large
+import delimited "D:\Code_new\Paper\6_Regression\StructBERT_large\industry_daily_sentiment.csv", clear
+
+/**************************数据整理**************************/
+encode date ,gen(time)
+xtset board_code time
+
+xtreg idx_pct_change ind_avg_sentiment ind_sentiment_std ind_sentiment_consensus sentiment_dispersion total_comments stock_count idx_close idx_volume idx_amount i.time, fe
+
+xtreg F.idx_pct_change ind_avg_sentiment ind_sentiment_std ind_sentiment_consensus sentiment_dispersion total_comments stock_count idx_close idx_volume idx_amount idx_pct_change i.time, fe
+
+xtreg F2.idx_pct_change F.idx_pct_change ind_avg_sentiment ind_sentiment_std ind_sentiment_consensus sentiment_dispersion total_comments stock_count idx_close idx_volume idx_amount idx_pct_change i.time, fe
+
+
+/*描述性统计*/
+asdoc summarize, save(描述性统计_相关性分析_多重共线性检验_F检验_Hausman检验_1d_ind.doc) replace
+
+/*单位根检验*/
+// Fisher检验
+xtunitroot fisher forward_ret_1d, dfuller lags(2)
+xtunitroot fisher avg_sentiment, dfuller lags(2)
+
+// 或使用IPS检验
+asdoc xtunitroot ips forward_ret_1d, lags(aic 3)
+asdoc xtunitroot ips avg_sentiment, lags(aic 3)
+
+/*协整检验*/
+asdoc xtcointtest kao forward_ret_1d avg_sentiment sentiment_std avg_intensity comment_count sentiment_consensus
+
+/*相关性分析*/
+asdoc pwcorr forward_ret_1d avg_sentiment sentiment_std avg_intensity comment_count sentiment_consensus close volume amount amplitude pct_change price_change turnover_rate,sig star(.05)
+
+/*多重共线性检验*/
+reg forward_ret_1d avg_sentiment sentiment_std avg_intensity comment_count sentiment_consensus close volume amount amplitude pct_change price_change turnover_rate, r
+asdoc vif
+
+
+/**************************模型选择检验**************************/
+//混合效应模型
+reg forward_ret_1d avg_sentiment sentiment_std avg_intensity comment_count sentiment_consensus close volume amount amplitude pct_change price_change turnover_rate
+est store ols
+//随机效应模型
+xtreg forward_ret_1d avg_sentiment sentiment_std avg_intensity comment_count sentiment_consensus close volume amount amplitude pct_change price_change turnover_rate, re
+est store re
+//固定效应模型
+asdoc xtreg forward_ret_1d avg_sentiment sentiment_std avg_intensity comment_count sentiment_consensus close volume amount amplitude pct_change price_change turnover_rate, fe
+est store fe
+//F检验(固定效应vs混合OLS)检验个体固定效应 ，F检验表明个体固定效应优于混合ols模型 ，p<0.05表示个体效应显著，固定效应更好
+asdoc hausman fe re
+//Hausman检验(固定效应vs随机效应)，结果拒绝原假设，选用固定效应模型 p<0.05固定效应，大于0.05 随机效应
+
+/*检验结果，应该选择固定效应回归分析*/
+
+
+/**************************面板回归**************************/
+//固定个体效应
+qui xtreg forward_ret_1d avg_sentiment sentiment_std avg_intensity comment_count sentiment_consensus close volume amount amplitude pct_change price_change turnover_rate, fe
+est store FE_Entity
+
+//固定个体&时间效应
+qui xtreg forward_ret_1d avg_sentiment sentiment_std avg_intensity comment_count sentiment_consensus close volume amount amplitude pct_change price_change turnover_rate i.time, fe
+est store FE_Entity_Time
+
+//滞后1期
+xtreg L1.forward_ret_1d forward_ret_1d avg_sentiment sentiment_std avg_intensity comment_count sentiment_consensus L.close L.volume L.amount L.amplitude L.pct_change L.price_change L.turnover_rate i.time, fe
+est store FE_Entity_Time_1
+//滞后2期
+xtreg L2.forward_ret_1d L1.forward_ret_1d forward_ret_1d avg_sentiment sentiment_std avg_intensity comment_count sentiment_consensus L2.close L2.volume L2.amount L2.amplitude L2.pct_change L2.price_change L2.turnover_rate i.time, fe
+est store FE_Entity_Time_2
+//滞后3期
+xtreg L3.forward_ret_1d L2.forward_ret_1d L1.forward_ret_1d forward_ret_1d avg_sentiment sentiment_std avg_intensity comment_count sentiment_consensus L3.close L3.volume L3.amount L3.amplitude L3.pct_change L3.price_change L3.turnover_rate i.time, fe
+est store FE_Entity_Time_3
+reg2docx FE_Entity FE_Entity_Time FE_Entity_Time_1 FE_Entity_Time_2 FE_Entity_Time_3 using Regression_1d_ind.docx,replace b(%12.4f)t(%12.4f)drop(*.time)scalars(N r2 F)title(PanelReg_1)note(***p<0.01，**p<0.05，*p<0.10)
+
+
+//交易量、交易额、换手率
+qui xtreg volume avg_sentiment sentiment_std avg_intensity comment_count sentiment_consensus close amplitude pct_change price_change i.time, fe
+est store VOL
+qui xtreg amount avg_sentiment sentiment_std avg_intensity comment_count sentiment_consensus close volume amplitude pct_change price_change i.time, fe
+est store AMO
+qui xtreg turnover_rate avg_sentiment sentiment_std avg_intensity comment_count sentiment_consensus close volume amplitude pct_change price_change i.time, fe
+est store TR
+reg2docx VOL AMO TR using Regression_1d.docx,append b(%12.4f)t(%12.4f)drop(*.time)scalars(N r2 F)title(交易量、交易额、换手率)note(***p<0.01，**p<0.05，*p<0.10)
+
+
+/**************************异质性分析**************************/
+/*分行业回归************************/
+levelsof board_code, local(boards)
+
+foreach i in `boards' {
+    quietly xtreg forward_ret_1d avg_sentiment sentiment_std avg_intensity comment_count sentiment_consensus close volume amount amplitude pct_change price_change turnover_rate i.time if board_code==`i', fe
+    estimates store Industry_`i'
+}
+
+local estlist ""
+foreach i in `boards' {
+    local estlist "`estlist' Industry_`i'"
+}
+
+reg2docx `estlist' using regression_1d.docx, append b(%9.3f) t(%9.3f) drop(*.time) scalars(N r2 F) title(分行业回归) note(***p<0.01，**p<0.05，*p<0.10)
+
+
+/**************************稳健性检验**************************/
+/*替换解释变量*/
+qui xtreg forward_ret_1d positive_ratio sentiment_std avg_intensity comment_count sentiment_consensus close volume amount amplitude pct_change price_change turnover_rate i.time, fe
+est store FE_Entity_Time_PR
+reg2docx FE_Entity_Time FE_Entity_Time_PR using Regression_1d.docx,append b(%12.4f)t(%12.4f)drop(*.time)scalars(N r2 F)title(avg_sentiment对比positive_ratio)note(***p<0.01，**p<0.05，*p<0.10)
+
+/*内生性检验*/
+//工具变量法
+ivregress 2sls forward_ret_1d (avg_sentiment=L.avg_sentiment L2.avg_sentiment L3.avg_sentiment) sentiment_std avg_intensity comment_count sentiment_consensus close volume amount amplitude pct_change price_change turnover_rate i.stock_code i.time, first cluster(stock_code)
+est store IV
+reg2docx IV using regression_1d.docx, append b(%12.4f)t(%12.4f)drop(*.stock_code *.time)scalars(N r2 F)title(IV)note(***p<0.01，**p<0.05，*p<0.10)
+//Granger因果检验
+pvar2 forward_ret_1d avg_sentiment ,lag(3) soc
+xtgcause forward_ret_1d avg_sentiment, lags(2)
+//pvar2 forward_ret_1d avg_sentiment ,lag(2) granger

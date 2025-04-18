@@ -1,0 +1,17 @@
+{
+    "max_concurrent_threads": 3,
+    "post_pages": {
+        "start_page": 1,
+        "end_page": 100
+    },
+    "comment_date_range": {
+        "start_date": "2025-02-01",
+        "end_date": "2025-02-28"
+    },
+    "delay_between_batches": 30,
+    "mongodb": {
+        "host": "localhost",
+        "port": 27017
+    },
+    "stock_file": "industries.py"
+} 
