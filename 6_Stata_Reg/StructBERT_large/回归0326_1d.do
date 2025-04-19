@@ -65,8 +65,6 @@ reg2docx FE_Entity FE_Entity_Time FE_Entity_IND FE_Entity_Time_IND using Regress
 
 
 /**************************机制分析**************************/
-xtreg forward_ret_1d avg_sentiment sentiment_std avg_intensity comment_count sentiment_consensus close amplitude pct_change price_change i.time, fe
-est store FE_Entity_Time_without_VOL
 //交易量、交易额、换手率
 qui xtreg volume avg_sentiment sentiment_std avg_intensity comment_count sentiment_consensus close amplitude pct_change price_change i.time, fe
 est store VOL
@@ -74,9 +72,6 @@ qui xtreg amount avg_sentiment sentiment_std avg_intensity comment_count sentime
 est store AMO
 qui xtreg turnover_rate avg_sentiment sentiment_std avg_intensity comment_count sentiment_consensus close volume amplitude pct_change price_change i.time, fe
 est store TR
-xtreg forward_ret_1d avg_sentiment sentiment_std avg_intensity comment_count sentiment_consensus close volume amount amplitude pct_change price_change turnover_rate i.time, fe
-est store FE_Entity_Time
-reg2docx FE_Entity_Time_without_VOL VOL FE_Entity_Time using Regression_1d.docx,append b(%12.4f)t(%12.4f)drop(*.time)scalars(N r2 F)title(交易量、交易额、换手率)note(***p<0.01，**p<0.05，*p<0.10)
 reg2docx VOL AMO TR using Regression_1d.docx,append b(%12.4f)t(%12.4f)drop(*.time)scalars(N r2 F)title(交易量、交易额、换手率)note(***p<0.01，**p<0.05，*p<0.10)
 
 
@@ -105,6 +100,7 @@ reg2docx IV using regression_1d.docx, append b(%12.4f)t(%12.4f)drop(*.stock_code
 //Granger因果检验
 pvar2 forward_ret_1d avg_sentiment ,lag(3) soc
 xtgcause forward_ret_1d avg_sentiment, lags(2)
+xtgcause avg_sentiment forward_ret_1d, lags(2)
 //pvar2 forward_ret_1d avg_sentiment ,lag(2) granger
 
 
@@ -116,7 +112,7 @@ est store FE_Entity_Time_PR
 //ma_3d
 xtreg forward_ret_1d ma_3d std_3d sentiment_change_3d avg_intensity comment_count sentiment_consensus close volume amount amplitude pct_change price_change turnover_rate i.time, fe
 est store FE_Entity_Time_ma_3d
-//ma_3d
+//ma_5d
 xtreg forward_ret_1d ma_5d std_5d sentiment_change_5d avg_intensity comment_count sentiment_consensus close volume amount amplitude pct_change price_change turnover_rate i.time, fe
 est store FE_Entity_Time_ma_5d
 reg2docx FE_Entity_Time FE_Entity_Time_PR FE_Entity_Time_ma_3d FE_Entity_Time_ma_5d using Regression_1d.docx,append b(%12.4f)t(%12.4f)drop(*.time)scalars(N r2 F)title(positive_ratio与ma_3d对比avg_sentiment)note(***p<0.01，**p<0.05，*p<0.10)
