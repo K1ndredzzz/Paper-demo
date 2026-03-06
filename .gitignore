@@ -1,0 +1,5 @@
+# Keep large writing/data folders out of Git history going forward
+/Guide/
+/开题报告/
+/论文材料/
+/重要数据备份/
